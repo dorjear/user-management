@@ -1,7 +1,8 @@
 package com.example.usermanagement.controller;
 
+import com.example.usermanagement.domain.UserAccount;
+import com.example.usermanagement.domain.ManagementService;
 import com.example.usermanagement.service.CustomPage;
-import com.example.usermanagement.service.User;
 import com.example.usermanagement.service.UserManagementService;
 import com.example.usermanagement.service.bean.UserOut;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,22 +16,25 @@ public class UserManagementController {
     @Autowired
     private UserManagementService userService;
 
+    @Autowired
+    private ManagementService managementService;
+
     @PostMapping("/api/user-management/user")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addNewUser(@RequestBody User user) {
-        userService.addNewUser(user);
+    public void addNewUser(@RequestBody UserAccount userAccount) {
+        managementService.addNewUser(userAccount);
     }
 
     @DeleteMapping("/api/user-management/user/{email}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteUser(@PathVariable String email){
-        userService.deleteUserByEmail(email);
+        managementService.deleteUserByEmail(email);
     }
 
     @PutMapping("/api/user-management/user")
     @ResponseStatus(HttpStatus.OK)
-    public void updateUser(@RequestBody User user){
-        userService.updateUser(user);
+    public void updateUser(@RequestBody UserAccount userAccount){
+        managementService.updateUser(userAccount);
     }
 
     @GetMapping("/api/user-management/user/list")
@@ -43,8 +47,8 @@ public class UserManagementController {
 
     @GetMapping("/api/user-management/user/{email}")
     @ResponseStatus(HttpStatus.OK)
-    public UserOut getUser(@PathVariable String email){
-        return userService.getUser(email);
+    public UserAccount getUser(@PathVariable String email){
+        return managementService.getUser(email);
     }
 
 }
